@@ -41,6 +41,5 @@ export async function fetchCities() {
         }
     );
 
-    const result = await searchRequest.data;
-    console.log(result);
+    return await searchRequest.data;
 }
