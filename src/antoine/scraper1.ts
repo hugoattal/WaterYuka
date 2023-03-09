@@ -1,4 +1,4 @@
-let entry_link: string = "https://sante.gouv.fr/sante-et-environnement/eaux/eau";
+const jsdom = require("jsdom");
 
 //Retournes le code html de la page
 function getHtmlFromUrl(url: string): Promise<string> {
@@ -8,15 +8,25 @@ function getHtmlFromUrl(url: string): Promise<string> {
 //Dans la balise map d'un code html, retourns les liens des départements
 
 //PAS FINI
-function getDepartementsLinks(html: string): string[] {
-    let links: string[] = [];
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(html, "text/html");
+function getRegionID(html: string): any {
+
+    let doc = new jsdom.JSDOM(html).window.document;
     let map = doc.querySelector("map") as HTMLMapElement;
     let areas = map.querySelectorAll("area");
+    let dict: any = {};
     areas.forEach((area) => {
-        links.push(area.getAttribute("href"));
+            dict[parseInt(area.getAttribute("href")?.slice(-2) as string)] = area.getAttribute("title");
     });
-    return links;
+
+    return dict;
 }
 
+async function main() {
+    let entry_link: string = "https://sante.gouv.fr/sante-et-environnement/eaux/eau";
+    let html = await getHtmlFromUrl(entry_link);
+    let answer = getRegionID(html);
+    console.log("Answer : ");
+    console.log(answer);
+}
+
+main().catch(err => console.log(err));
