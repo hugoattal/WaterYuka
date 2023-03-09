@@ -1,0 +1,744 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+	<head>
+		
+		<META NAME="Keywords" LANG="fr" CONTENT="eau, eaux, robinet, potable, r�sultat, qualit�">
+		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">						
+		<META HTTP-EQUIV="Expires" CONTENT="0">
+
+		<script language="javascript" type="text/javascript">
+			function getPosition(){
+				var parentPage = window.parent.location.href;
+				parentHostSplit = parentPage.split('/');
+				// supprime le http://xxx
+				delete parentHostSplit[0];
+				delete parentHostSplit[1];
+				delete parentHostSplit[2];
+				// supprimer le  nom du fichier:
+				delete parentHostSplit[(parentHostSplit.length-1)];
+				// reconstitue la partie d'url
+				var arraytext = parentHostSplit.join("/");
+				// extrait le r�pertoire interressant
+				var position = arraytext.substr(3,100);
+				return position;
+			}
+		
+		
+			function fcRechercher(pos) {
+				
+					
+					
+						document.rechercherResultatQualiteForm.methode.value = "rechercher";
+						if ( document.rechercherResultatQualiteForm.posPLV.value == "" ) {
+							document.rechercherResultatQualiteForm.posPLV.value = 0;
+						}
+						if ( pos == 0 || (( document.rechercherResultatQualiteForm.posPLV.value * 1 ) + pos )< 0) {
+							document.rechercherResultatQualiteForm.posPLV.value = 0;
+						} else  {
+							document.rechercherResultatQualiteForm.posPLV.value = ( document.rechercherResultatQualiteForm.posPLV.value * 1 ) + pos;
+						}
+						document.rechercherResultatQualiteForm.submit();						
+					
+					
+				
+				
+			}
+			function fcChangerCommune(obj) {
+				document.rechercherResultatQualiteForm.methode.value = "changerCommune";
+				document.rechercherResultatQualiteForm.submit();
+			}
+			function fcChangerDepartement(obj) {
+				if(obj === 1){
+					if(document.getElementsByName('communeDepartement')[0].options.length == 0){
+						document.rechercherResultatQualiteForm.methode.value = "changerDepartement";
+						document.rechercherResultatQualiteForm.submit();
+					}
+				}else{
+					document.rechercherResultatQualiteForm.methode.value = "changerDepartement";
+					document.rechercherResultatQualiteForm.submit();
+				}
+			}
+			function fcChangerReseau(obj) {
+				document.rechercherResultatQualiteForm.methode.value = "changerReseau";
+				document.rechercherResultatQualiteForm.submit();
+			}
+			// uri du glossaire (sur le site statique)
+			function getGlossaireUri(){
+                              return getPosition() +'glossaire/glossaire_DR.html';
+			}
+		</script>
+			
+		<script language="javascript">document.write('<LINK href="' + getPosition() + 'css/derniersResultats.css" rel="stylesheet" type="text/css">');</script>
+
+		<script type="text/javascript">document.write('<link href="' + getPosition() + 'css/base.css" media="screen" rel="stylesheet" type="text/css" />');</script>
+		<script type="text/javascript">document.write('<link href="' + getPosition() + 'piscine/css/uniform.default.css" media="screen" rel="stylesheet" type="text/css" />');</script>
+
+		
+		<title>Contr�le sanitaire des EDCH</title>
+		<!-- Matomo -->
+		<script type="text/javascript">
+			  var _paq = window._paq = window._paq || [];
+			  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+			  _paq.push(['trackPageView']);
+			  _paq.push(['enableLinkTracking']);
+			  (function() {
+				 var u="https://matomo.fabrique.social.gouv.fr/";
+			    _paq.push(['setTrackerUrl', u+'piwik.php']);
+			    _paq.push(['setSiteId', '40']);
+			    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+			    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+			  })();
+		</script>
+		<!-- End Matomo Code -->
+	</head>
+
+	<body class="body-blue">
+		<div class="page"><!-- page -->
+			<div class="header clearfix" style="width:650px;">
+				<span title="Minist�re charg� de la sant�" class="logo-first">
+					
+						<script language="javascript">document.write('<img src="' + getPosition() + 'images/logo-marianne.png"  alt="Minist�re charg� de la sant�" class="logo-ministere" />');</script>
+					
+				</span>
+				<h1>
+					
+						Eau potable
+					
+				</h1>
+				<span title="ARS Agence R�gionale de Sant�" class="logo-second">
+					<script type="text/javascript">document.write('<img src="' + getPosition() + 'piscine/images/logo_ars.png" alt="ARS Agence R�gionale de Sant�" />');</script>
+				</span>
+			</div>
+			
+			
+
+			<div class="subtitle">
+				<h2 class="titreMiddle">
+				
+					R&eacute;sultats des analyses du contr&ocirc;le sanitaire des eaux destin&eacute;es &agrave; la consommation humaine
+				
+				</h2>
+			</div>
+
+			<div class="content" style="width:650px;">
+				
+				<DIV id="divCal" style="VISIBILITY: hidden; POSITION: absolute; BACKGROUND-COLOR: white; layer-background-color: white"></DIV>
+				
+				
+				<div class="block-content"><!-- block-content -->
+					<h3 class="search">Crit�res de recherche</h3>
+
+					<form name="rechercherResultatQualiteForm" method="post" action="/orobnat/rechercherResultatQualite.do">
+						<input type="hidden" name="methode" value="">
+						<input type="hidden" name="idRegion" value="11">
+						<input type="hidden" name="usd" value="AEP">
+						<input type="hidden" name="posPLV" value="0">
+
+						<br />
+						<p>
+							<label>D�partement&nbsp;</label>
+							
+								<select name="departement" onchange="javascript:fcChangerDepartement(this)" class="select"><option value="091" selected="selected">ESSONNE</option>
+<option value="092">HAUTS-DE-SEINE</option>
+<option value="075">PARIS</option>
+<option value="077">SEINE-ET-MARNE</option>
+<option value="093">SEINE-SAINT-DENIS</option>
+<option value="094">VAL-DE-MARNE</option>
+<option value="095">VAL-D&#39;OISE</option>
+<option value="078">YVELINES</option></select>
+							
+						</p>
+						<p>
+							<label>Commune&nbsp;</label>
+						
+							
+								<select name="communeDepartement" onchange="javascript:fcChangerCommune(this)" class="select"><option value="91001" selected="selected">ABBEVILLE-LA-RIVIERE</option>
+<option value="91016">ANGERVILLE</option>
+<option value="91017">ANGERVILLIERS</option>
+<option value="91021">ARPAJON</option>
+<option value="91022">ARRANCOURT</option>
+<option value="91027">ATHIS-MONS</option>
+<option value="91035">AUTHON-LA-PLAINE</option>
+<option value="91037">AUVERNAUX</option>
+<option value="91038">AUVERS-SAINT-GEORGES</option>
+<option value="91041">AVRAINVILLE</option>
+<option value="91044">BALLAINVILLIERS</option>
+<option value="91045">BALLANCOURT-SUR-ESSONNE</option>
+<option value="91047">BAULNE</option>
+<option value="91064">BIEVRES</option>
+<option value="91067">BLANDY</option>
+<option value="91069">BOIGNEVILLE</option>
+<option value="91075">BOIS-HERPIN</option>
+<option value="91079">BOISSY-LA-RIVIERE</option>
+<option value="91080">BOISSY-LE-CUTTE</option>
+<option value="91081">BOISSY-LE-SEC</option>
+<option value="91085">BOISSY-SOUS-SAINT-YON</option>
+<option value="91086">BONDOUFLE</option>
+<option value="91093">BOULLAY-LES-TROUX</option>
+<option value="91095">BOURAY-SUR-JUINE</option>
+<option value="91097">BOUSSY-SAINT-ANTOINE</option>
+<option value="91098">BOUTERVILLIERS</option>
+<option value="91099">BOUTIGNY-SUR-ESSONNE</option>
+<option value="91100">BOUVILLE</option>
+<option value="91103">BRETIGNY-SUR-ORGE</option>
+<option value="91105">BREUILLET</option>
+<option value="91106">BREUX-JOUY</option>
+<option value="91109">BRIERES-LES-SCELLES</option>
+<option value="91111">BRIIS-SOUS-FORGES</option>
+<option value="91112">BROUY</option>
+<option value="91114">BRUNOY</option>
+<option value="91115">BRUYERES-LE-CHATEL</option>
+<option value="91121">BUNO-BONNEVAUX</option>
+<option value="91122">BURES-SUR-YVETTE</option>
+<option value="91129">CERNY</option>
+<option value="91130">CHALO-SAINT-MARS</option>
+<option value="91131">CHALOU-MOULINEUX</option>
+<option value="91132">CHAMARANDE</option>
+<option value="91135">CHAMPCUEIL</option>
+<option value="91136">CHAMPLAN</option>
+<option value="91137">CHAMPMOTTEUX</option>
+<option value="91145">CHATIGNONVILLE</option>
+<option value="91148">CHAUFFOUR-LES-ETRECHY</option>
+<option value="91156">CHEPTAINVILLE</option>
+<option value="91159">CHEVANNES</option>
+<option value="91161">CHILLY-MAZARIN</option>
+<option value="91613">CONGERVILLE-THIONVILLE</option>
+<option value="91174">CORBEIL-ESSONNES</option>
+<option value="91175">CORBREUSE</option>
+<option value="91179">COUDRAY-MONTCEAUX (LE)</option>
+<option value="91180">COURANCES</option>
+<option value="91184">COURDIMANCHE-SUR-ESSONNE</option>
+<option value="91186">COURSON-MONTELOUP</option>
+<option value="91191">CROSNE</option>
+<option value="91195">DANNEMOIS</option>
+<option value="91198">D&#39;HUISON-LONGUEVILLE</option>
+<option value="91200">DOURDAN</option>
+<option value="91201">DRAVEIL</option>
+<option value="91204">ECHARCON</option>
+<option value="91207">EGLY</option>
+<option value="91215">EPINAY-SOUS-SENART</option>
+<option value="91216">EPINAY-SUR-ORGE</option>
+<option value="91223">ETAMPES</option>
+<option value="91225">ETIOLLES</option>
+<option value="91226">ETRECHY</option>
+<option value="91228">EVRY-COURCOURONNES</option>
+<option value="91232">FERTE-ALAIS (LA)</option>
+<option value="91235">FLEURY-MEROGIS</option>
+<option value="91240">FONTAINE-LA-RIVIERE</option>
+<option value="91243">FONTENAY-LES-BRIIS</option>
+<option value="91244">FONTENAY-LE-VICOMTE</option>
+<option value="91247">FORET-LE-ROI (LA)</option>
+<option value="91248">FORET-SAINTE-CROIX (LA)</option>
+<option value="91249">FORGES-LES-BAINS</option>
+<option value="91272">GIF-SUR-YVETTE</option>
+<option value="91273">GIRONVILLE-SUR-ESSONNE</option>
+<option value="91274">GOMETZ-LA-VILLE</option>
+<option value="91275">GOMETZ-LE-CHATEL</option>
+<option value="91284">GRANGES-LE-ROI (LES)</option>
+<option value="91286">GRIGNY</option>
+<option value="91292">GUIBEVILLE</option>
+<option value="91293">GUIGNEVILLE-SUR-ESSONNE</option>
+<option value="91294">GUILLERVAL</option>
+<option value="91312">IGNY</option>
+<option value="91315">ITTEVILLE</option>
+<option value="91318">JANVILLE-SUR-JUINE</option>
+<option value="91319">JANVRY</option>
+<option value="91326">JUVISY-SUR-ORGE</option>
+<option value="91330">LARDY</option>
+<option value="91332">LEUDEVILLE</option>
+<option value="91333">LEUVILLE-SUR-ORGE</option>
+<option value="91338">LIMOURS</option>
+<option value="91339">LINAS</option>
+<option value="91340">LISSES</option>
+<option value="91345">LONGJUMEAU</option>
+<option value="91347">LONGPONT-SUR-ORGE</option>
+<option value="91359">MAISSE</option>
+<option value="91363">MARCOUSSIS</option>
+<option value="91374">MAROLLES-EN-BEAUCE</option>
+<option value="91376">MAROLLES-EN-HUREPOIX</option>
+<option value="91377">MASSY</option>
+<option value="91378">MAUCHAMPS</option>
+<option value="91386">MENNECY</option>
+<option value="91390">MEREVILLOIS (LE)</option>
+<option value="91393">MEROBERT</option>
+<option value="91399">MESPUITS</option>
+<option value="91405">MILLY-LA-FORET</option>
+<option value="91408">MOIGNY-SUR-ECOLE</option>
+<option value="91411">MOLIERES (LES)</option>
+<option value="91412">MONDEVILLE</option>
+<option value="91414">MONNERVILLE</option>
+<option value="91421">MONTGERON</option>
+<option value="91425">MONTLHERY</option>
+<option value="91432">MORANGIS</option>
+<option value="91433">MORIGNY-CHAMPIGNY</option>
+<option value="91434">MORSANG-SUR-ORGE</option>
+<option value="91435">MORSANG-SUR-SEINE</option>
+<option value="91441">NAINVILLE-LES-ROCHES</option>
+<option value="91457">NORVILLE (LA)</option>
+<option value="91458">NOZAY</option>
+<option value="91461">OLLAINVILLE</option>
+<option value="91463">ONCY-SUR-ECOLE</option>
+<option value="91468">ORMOY</option>
+<option value="91469">ORMOY-LA-RIVIERE</option>
+<option value="91471">ORSAY</option>
+<option value="91473">ORVEAU</option>
+<option value="91477">PALAISEAU</option>
+<option value="91479">PARAY-VIEILLE-POSTE</option>
+<option value="91482">PECQUEUSE</option>
+<option value="91494">PLESSIS-PATE (LE)</option>
+<option value="91495">PLESSIS-SAINT-BENOIST</option>
+<option value="91507">PRUNAY-SUR-ESSONNE</option>
+<option value="91508">PUISELET-LE-MARAIS</option>
+<option value="91511">PUSSAY</option>
+<option value="91514">QUINCY-SOUS-SENART</option>
+<option value="91519">RICHARVILLE</option>
+<option value="91521">RIS-ORANGIS</option>
+<option value="91525">ROINVILLE</option>
+<option value="91526">ROINVILLIERS</option>
+<option value="91533">SACLAS</option>
+<option value="91534">SACLAY</option>
+<option value="91538">SAINT-AUBIN</option>
+<option value="91540">SAINT-CHERON</option>
+<option value="91544">SAINT-CYR-LA-RIVIERE</option>
+<option value="91546">SAINT-CYR-SOUS-DOURDAN</option>
+<option value="91549">SAINTE-GENEVIEVE-DES-BOIS</option>
+<option value="91547">SAINT-ESCOBILLE</option>
+<option value="91552">SAINT-GERMAIN-LES-ARPAJON</option>
+<option value="91553">SAINT-GERMAIN-LES-CORBEIL</option>
+<option value="91556">SAINT-HILAIRE</option>
+<option value="91560">SAINT-JEAN-DE-BEAUREGARD</option>
+<option value="91568">SAINT-MAURICE-MONTCOURONNE</option>
+<option value="91570">SAINT-MICHEL-SUR-ORGE</option>
+<option value="91573">SAINT-PIERRE-DU-PERRAY</option>
+<option value="91577">SAINTRY-SUR-SEINE</option>
+<option value="91578">SAINT-SULPICE-DE-FAVIERES</option>
+<option value="91579">SAINT-VRAIN</option>
+<option value="91581">SAINT-YON</option>
+<option value="91587">SAULX-LES-CHARTREUX</option>
+<option value="91589">SAVIGNY-SUR-ORGE</option>
+<option value="91593">SERMAISE</option>
+<option value="91599">SOISY-SUR-ECOLE</option>
+<option value="91600">SOISY-SUR-SEINE</option>
+<option value="91602">SOUZY-LA-BRICHE</option>
+<option value="91617">TIGERY</option>
+<option value="91619">TORFOU</option>
+<option value="91692">ULIS (LES)</option>
+<option value="91629">VALPUISEAUX</option>
+<option value="91630">VAL-SAINT-GERMAIN (LE)</option>
+<option value="91631">VARENNES-JARCY</option>
+<option value="91634">VAUGRIGNEUSE</option>
+<option value="91635">VAUHALLAN</option>
+<option value="91639">VAYRES-SUR-ESSONNE</option>
+<option value="91645">VERRIERES-LE-BUISSON</option>
+<option value="91648">VERT-LE-GRAND</option>
+<option value="91649">VERT-LE-PETIT</option>
+<option value="91654">VIDELLES</option>
+<option value="91657">VIGNEUX-SUR-SEINE</option>
+<option value="91659">VILLABE</option>
+<option value="91661">VILLEBON-SUR-YVETTE</option>
+<option value="91662">VILLECONIN</option>
+<option value="91665">VILLE-DU-BOIS (LA)</option>
+<option value="91666">VILLEJUST</option>
+<option value="91667">VILLEMOISSON-SUR-ORGE</option>
+<option value="91671">VILLENEUVE-SUR-AUVERS</option>
+<option value="91679">VILLIERS-LE-BACLE</option>
+<option value="91685">VILLIERS-SUR-ORGE</option>
+<option value="91687">VIRY-CHATILLON</option>
+<option value="91689">WISSOUS</option>
+<option value="91691">YERRES</option></select>
+							
+						</p>
+
+						<p>
+							<label>R&eacute;seau(x) &nbsp;
+								<a href="#" class="infobulleBig">
+									<img src="orobnat/images/information.png" alt="" width="12px"/>
+									<span>Liste des r&eacute;seaux alimentant la commune s&eacute;lectionn&eacute;e.</span> 
+								</a>
+							</label>
+							
+								<select name="reseau" onchange="javascript:fcChangerReseau(this)" class="select"><option value="091000569_091" selected="selected">PLATEAU DE BEAUCE SUD</option></select>
+							
+						</p>
+						<p style="overflow:auto;">
+							<label style="float:left;">Commune(s) et/ou quartier(s) du r&eacute;seau
+								<a href="#" class="infobulleBig">
+									<img src="orobnat/images/information.png" alt="" width="12px"/>
+									<span>Pour information, liste des communes aliment&eacute;es par le r&eacute;seau 
+											s&eacute;lectionn&eacute;. Le point de pr&eacute;l&egrave;vement sur ce r&eacute;seau 
+											est situ� sur l'une de ces communes.</span>
+								</a>
+							</label>
+							<span  style="float:left;">
+								
+									
+										- ABBEVILLE-LA-RIVIERE<br>
+									
+										- ARRANCOURT<br>
+									
+										- BOIS-HERPIN<br>
+									
+										- BOISSY-LA-RIVIERE - -sauf Mesnil-Girault<br>
+									
+										- BOUVILLE<br>
+									
+										- FONTAINE-LA-RIVIERE<br>
+									
+										- FORET-SAINTE-CROIX (LA)<br>
+									
+										- MAROLLES-EN-BEAUCE<br>
+									
+										- MESPUITS<br>
+									
+										- PUISELET-LE-MARAIS<br>
+									
+										- ROINVILLIERS<br>
+									
+										- SAINT-CYR-LA-RIVIERE - VIA FONTENETTE<br>
+									
+										- VALPUISEAUX<br>
+									
+								
+							</span>
+						</p>
+
+						<div class="bt-actions bt-search clearfix">
+							<p>
+								<input name="btnRechercher" onClick="javascript:fcRechercher(0)" type="button" value="Rechercher" class="buttons bt-first">
+							</p>
+						</div>
+					</form>
+				</div><!-- end block-content -->
+
+				<br>
+				
+					<div class="block-content"><!-- block-content -->
+						<div class="bt-actions clearfix">
+							<p>
+									
+									
+									
+									 
+										
+										<input name="btnBulletin" onClick="javascript:fcRechercher(1)" type="button" value="Bulletin pr&eacute;c&eacute;dent" class="buttons bt-second">
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										
+										
+								
+							</p>
+						</div>
+					</div><!-- end block-content -->
+				
+				<br><br>
+
+				<br>
+
+				
+					<div class="block-content"><!-- block-content -->
+						<h3 class="infos">Informations g�n�rales</h3>
+						<table>
+							<tr>
+								<th width="1%" nowrap>Date du pr&eacute;l&egrave;vement</th>
+								<td>22/02/2023&nbsp;&nbsp;09h20</td>
+							</tr>
+							<tr class="odd">
+								<th width="1%" nowrap><div align="right">Commune de pr&eacute;l&egrave;vement</div></th>
+								<td>BOUVILLE</td>
+							</tr><!--
+							<tr>
+								<th width="1%" nowrap><div align="right">Lieu de pr&eacute;l&egrave;vement (1)</div></th>
+								<td>(PART) GRAND BOUVILLE - N�30-CUISINE CHEZ M.BERRUER-ROUTE D&#39;ETAMPES</td>
+							</tr>
+							--><tr>
+								<th width="1%" nowrap><div align="right">Installation</div></th>
+								<td>PLATEAU DE BEAUCE SUD</td>
+							</tr>
+							<tr class="odd">
+								<th width="1%" nowrap><div align="right">Service public de distribution</div></th>
+								<td>CAESE VEOLIA</td>
+							</tr>	
+							<tr>
+								<th width="1%" nowrap><div align="right">Responsable de distribution</div></th>
+								<td>VEOLIA EAU SECTEUR OUEST</td>
+							</tr>
+							<tr class="odd">																	
+								<th width="1%" nowrap><div align="right">Ma&icirc;tre d'ouvrage</div></th>
+								<td>COMMU AGGLO ETAMPOIS SUD ESSONN</td>
+							</tr>																
+						</table>
+					</div><!-- end block-content -->
+					<br>
+					<!--
+					<table border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td width="28">&nbsp;</td>
+							<td width="100%" class="contenu" align="top"><a id="lieu"></a>(1) Le point de pr&eacute;l&egrave;vement n'est pas forc&eacute;ment sur la commune s&eacute;lectionn&eacute;e mais il est repr&eacute;sentatif de la qualit&eacute; de l'eau distribu&eacute;e sur l'ensemble des communes aliment&eacute;es par ce m&ecirc;me r&eacute;seau.</td>
+						</tr>
+					</table>
+					-->
+					<br>
+					<div class="block-content"><!-- block-content -->
+						<h3 class="common">Conformit&eacute;</h3>
+						<table>
+						 	<tr>
+								<th width="1%" nowrap><div align="right">Conclusions sanitaires</div></th>
+								<td width="99%">
+									
+										
+											
+											Eau d&#39;alimentation conforme aux exigences de qualit� en vigueur pour 
+											
+										
+											
+											l&#39;ensemble des param�tres mesur�s.
+											
+										
+							 		
+							 	</td>
+							</tr>
+							<tr class="odd">
+								<th width="1%" nowrap class="gras"><div align="right">Conformit&eacute; bact&eacute;riologique</div></th>
+								<td width="99%">
+									
+										oui
+									
+									
+									
+									
+									
+								</td>
+							</tr>
+							<tr>
+								<th width="1%" nowrap class="gras"><div align="right">Conformit&eacute; physico-chimique</div></th>
+								<td width="99%">
+									
+										oui
+									
+									
+									
+									
+									
+								</td>
+							</tr>
+							<tr class="odd">
+								<th width="1%" nowrap class="gras"><div align="right">Respect des <a href="javascript:window.parent.location=getGlossaireUri()+'#refqual'">r&eacute;f&eacute;rences de qualit&eacute;</a></div></th>
+								<td width="99%">
+									
+										
+											oui
+										
+										
+										
+										
+										
+									
+									
+
+									
+									
+									
+								</td>
+							</tr>
+							<tr>
+								
+										
+								
+							</tr>
+							<tr class="odd">
+							
+								
+							
+						<tr>
+					</table>
+				</div><!-- end block-content -->
+				<br>
+				<div class="block-content"><!-- block-content -->
+					<h3 class="params">R�sultats d'analyses</h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Param&egrave;tre</th>
+								<th>Valeur</th>
+								<th><a href="javascript:window.parent.location=getGlossaireUri()+'#limitesqual'"
+									style="color:white;">Limite de qualit&eacute;</a></td>
+								<th>R&eacute;f&eacute;rence de qualit&eacute;</th>
+							</tr>
+						</thead>
+						
+							
+								<tr>
+									<td><b>Ent�rocoques /100ml-MS</b></td>
+									<td>&lt;1 n/(100mL)</td>
+									<td>&le; 0        n/(100mL)</td>
+									<td></td>
+								</tr>
+							
+								<tr>
+									<td><b>Bact. et spores sulfito-r�du./100ml</b></td>
+									<td>&lt;1 n/(100mL)</td>
+									<td></td>
+									<td>&le; 0        n/(100mL)</td>
+								</tr>
+							
+								<tr>
+									<td><b>Bact. a�r. revivifiables � 22�-68h</b></td>
+									<td>&lt;1 n/mL</td>
+									<td></td>
+									<td></td>
+								</tr>
+							
+								<tr>
+									<td><b>Bact. a�r. revivifiables � 36�-44h</b></td>
+									<td>2 n/mL</td>
+									<td></td>
+									<td></td>
+								</tr>
+							
+								<tr>
+									<td><b>Bact�ries coliformes /100ml-MS</b></td>
+									<td>&lt;1 n/(100mL)</td>
+									<td></td>
+									<td>&le; 0        n/(100mL)</td>
+								</tr>
+							
+								<tr>
+									<td><b>Escherichia coli /100ml - MF</b></td>
+									<td>&lt;1 n/(100mL)</td>
+									<td>&le; 0        n/(100mL)</td>
+									<td></td>
+								</tr>
+							
+								<tr>
+									<td><b>Temp�rature de l&#39;eau *</b></td>
+									<td>8,9 �C</td>
+									<td>&ge;         et &le;          �C</td>
+									<td>&ge;         et &le; 25       �C</td>
+								</tr>
+							
+								<tr>
+									<td><b>Coloration</b></td>
+									<td>&lt;5 mg(Pt)/L</td>
+									<td></td>
+									<td>&le; 15       mg(Pt)/L</td>
+								</tr>
+							
+								<tr>
+									<td><b>Couleur (qualitatif)</b></td>
+									<td>Aucun changement anormal</td>
+									<td></td>
+									<td></td>
+								</tr>
+							
+								<tr>
+									<td><b>Aspect (qualitatif)</b></td>
+									<td>Aspect normal</td>
+									<td></td>
+									<td></td>
+								</tr>
+							
+								<tr>
+									<td><b>Odeur (qualitatif)</b></td>
+									<td>Aucun changement anormal</td>
+									<td></td>
+									<td></td>
+								</tr>
+							
+								<tr>
+									<td><b>Saveur (qualitatif)</b></td>
+									<td>Aucun changement anormal</td>
+									<td></td>
+									<td></td>
+								</tr>
+							
+								<tr>
+									<td><b>Turbidit� n�ph�lom�trique NFU</b></td>
+									<td>&lt;0,1 NFU</td>
+									<td></td>
+									<td>&le; 2        NFU</td>
+								</tr>
+							
+								<tr>
+									<td><b>Chlore libre *</b></td>
+									<td>0,30 mg(Cl2)/L</td>
+									<td></td>
+									<td></td>
+								</tr>
+							
+								<tr>
+									<td><b>Chlore total *</b></td>
+									<td>0,34 mg(Cl2)/L</td>
+									<td></td>
+									<td></td>
+								</tr>
+							
+								<tr>
+									<td><b>pH *</b></td>
+									<td>7,6 unit� pH</td>
+									<td></td>
+									<td>&ge;6,5      et &le; 9        unit� pH</td>
+								</tr>
+							
+								<tr>
+									<td><b>pH</b></td>
+									<td>7,61 unit� pH</td>
+									<td></td>
+									<td>&ge;6,5      et &le; 9        unit� pH</td>
+								</tr>
+							
+								<tr>
+									<td><b>Conductivit� � 25�C</b></td>
+									<td>463 �S/cm</td>
+									<td></td>
+									<td>&ge;200      et &le; 1100     �S/cm</td>
+								</tr>
+							
+								<tr>
+									<td><b>Fer total</b></td>
+									<td>&lt;10 �g/L</td>
+									<td></td>
+									<td>&le; 200      �g/L</td>
+								</tr>
+							
+								<tr>
+									<td><b>Ammonium (en NH4)</b></td>
+									<td>&lt;0,05 mg/L</td>
+									<td>&ge;         et &le;          mg/L</td>
+									<td>&ge;         et &le; 0,1      mg/L</td>
+								</tr>
+							
+						
+					</table>
+					<br>
+					<table>
+						
+						
+						
+						<tr>
+							<th width="28">&nbsp;</th>
+							<td width="100%" class="contenu" align="top"><a id="lieu"></a>* Analyse  r&eacute;alis&eacute;e sur le terrain</td>
+						</tr>
+						
+						
+					</table>
+				</div><!-- end block-content -->
+
+				
+
+				<br>
+			</div>
+		</div><!-- end page-->
+	</body>
+</html>
+
+
