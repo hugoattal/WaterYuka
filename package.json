@@ -6,7 +6,7 @@
         "test": "vitest",
         "dev": "vitest --ui",
         "hugo": "ts-node -T -r tsconfig-paths/register src/hugo/main.ts",
-        "ant": "ts-node -T -r tsconfig-paths/register src/antoine/scraper1.ts",
+        "ant": "ts-node -T -r tsconfig-paths/register src/antoine/main.ts",
         "build": "tsc && vite build",
         "preview": "vite preview"
     },
