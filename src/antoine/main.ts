@@ -21,18 +21,33 @@ function getRegionsIDfromHTML(html: string): any {
 }
 
 //A partir de l'html de la page https://orobnat.sante.gouv.fr/orobnat/afficherPage.do?methode=menu&usd=AEP&idRegion=IDREGION en entrée, retourne un dictionnaire avec les id des départements et leur nom
-function getDepartementsIDofARegionfromHTML(html: string): any {
-    
-    
+function getDepartementOrCommune(html: string, entity: string): any {
+
+    if (entity == "commune") {
+        entity = "communeDepartement";
+    } else if (entity == "departement") {
+        entity = "departement";
+    } else {
+        throw new Error("entity must be 'departement' or 'commune'");
+    }
+
+    let str: string = "select[name='" + entity + "']"
     let doc = new jsdom.JSDOM(html).window.document;
-    let select = doc.querySelector("select[name='departement']") as HTMLSelectElement;
+    let select = doc.querySelector(str) as HTMLSelectElement;
     let options = select.querySelectorAll("option");
     let dict: any = {};
     options.forEach((option) => {
         dict[parseFloat(option.getAttribute("value") as string)] = option.textContent;
     });
     return dict;
+}
 
+function getDepartementsIDofARegionfromHTML(html: string, ): any {
+    return getDepartementOrCommune(html, "departement");
+}
+
+function getCommunesIDofADepartementfromHTML(html: string): any {
+    return getDepartementOrCommune(html, "commune");
 }
 
 async function main() {
