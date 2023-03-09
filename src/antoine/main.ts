@@ -14,21 +14,23 @@ function getRegionsIDfromHTML(html: string): any {
     let areas = map.querySelectorAll("area");
     let dict: any = {};
     areas.forEach((area) => {
-            dict[parseInt(area.getAttribute("href")?.slice(-2) as string)] = area.getAttribute("title");
+            dict[parseInt(area.getAttribute("href")?.slice(-2) as string)] = aOrReseaurea.getAttribute("title");
     });
 
     return dict;
 }
 
 //A partir de l'html de la page https://orobnat.sante.gouv.fr/orobnat/afficherPage.do?methode=menu&usd=AEP&idRegion=IDREGION en entrée, retourne un dictionnaire avec les id des départements et leur nom
-function getDepartementOrCommune(html: string, entity: string): any {
+function getDepartementOrCommuneOrReseau(html: string, entity: string): any {
 
     if (entity == "commune") {
         entity = "communeDepartement";
     } else if (entity == "departement") {
         entity = "departement";
+    } else if (entity == "reseau") {
+        entity = "reseau";
     } else {
-        throw new Error("entity must be 'departement' or 'commune'");
+        throw new Error("entity must be 'departement' or 'commune' or 'reseau'");
     }
 
     let str: string = "select[name='" + entity + "']"
@@ -43,11 +45,11 @@ function getDepartementOrCommune(html: string, entity: string): any {
 }
 
 function getDepartementsIDofARegionfromHTML(html: string, ): any {
-    return getDepartementOrCommune(html, "departement");
+    return getDepartementOrCommuneOrReseau(html, "departement");
 }
 
 function getCommunesIDofADepartementfromHTML(html: string): any {
-    return getDepartementOrCommune(html, "commune");
+    return getDepartementOrCommuneOrReseau(html, "commune");
 }
 
 async function main() {
@@ -59,7 +61,7 @@ async function main() {
     let id: string = "11";
     let entry_link: string = "https://orobnat.sante.gouv.fr/orobnat/afficherPage.do?methode=menu&usd=AEP&idRegion=" + id;
     let html = await getHtmlFromUrl(entry_link);
-    let answer: any = getDepartementsIDofARegionfromHTML(html);
+    let answer: any = getDepartementOrCommuneOrReseau(html, "reseau");
     console.log("Answer : ");
     console.log(answer);
 }
