@@ -1,11 +1,11 @@
 {
-    "name": "WaterYuka",
+    "name": "wateryuka",
     "private": true,
     "version": "0.0.0",
-    "type": "module",
     "scripts": {
         "test": "vitest",
         "dev": "vitest --ui",
+        "hugo": "ts-node -T -r tsconfig-paths/register  src/hugo/main.ts",
         "build": "tsc && vite build",
         "preview": "vite preview"
     },
@@ -13,6 +13,10 @@
         "@vitest/ui": "^0.29.2",
         "typescript": "^4.9.5",
         "vite": "^4.1.4",
-        "vitest": "^0.29.2"
+        "vitest": "^0.29.2",
+        "tsconfig-paths": "^3.14.2"
+    },
+    "dependencies": {
+        "mongoose": "^7.0.1"
     }
 }
